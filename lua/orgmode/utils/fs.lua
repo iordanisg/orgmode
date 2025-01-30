@@ -57,8 +57,11 @@ function M.trim_common_root(paths)
   local root = vim.fn.fnamemodify(filepaths[1], ':h') .. '/'
 
   for _, path in ipairs(paths) do
-    local relative_path = path:sub(#root + 1)
-    table.insert(result, relative_path)
+    if path:sub(1, #root) == root then
+      table.insert(result, path:sub(#root + 1))
+    else
+      table.insert(result, path)
+    end
   end
   return result
 end
